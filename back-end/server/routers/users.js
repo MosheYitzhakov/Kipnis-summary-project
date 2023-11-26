@@ -10,7 +10,7 @@ router.get('/:name/:password', async (req, res) => {
         let password = req.params.password;
         const user = await getUser(name, password)
         if (!user) {
-            res.status(401).json('The name or password is incorrect')
+            res.json('The name or password is incorrect')
         } else {
             res.send(user)
         }

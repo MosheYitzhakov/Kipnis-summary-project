@@ -16,4 +16,4 @@ router.get('/:user_id', async (req, res) => {
     } catch (error) {
         res.send(error.message)
     }
-})
+})              
