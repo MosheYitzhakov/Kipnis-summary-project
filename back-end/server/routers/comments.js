@@ -10,7 +10,6 @@ router.get('/:id_post', async (req, res) => {
         if (!user.length) {
             res.status(401).json('No found posts')
         } else {
-            console.log(user.length);
             res.send(user)
         }
     } catch (error) {
@@ -27,10 +26,9 @@ router.get('/:id_post', async (req, res) => {
             throw new Error("Body is required")
         }
         const user = await newComment(postId,name,email,body)
-        if (!user.length) {
-            res.status(401).json('No found posts')
+        if (typeof user=== 'string') {
+            res.json('cannot posts')
         } else {
-            console.log(user.length);
             res.send(user)
         }
     } catch (error) {
@@ -40,7 +38,10 @@ router.get('/:id_post', async (req, res) => {
 .delete('/:id_post',async (req,res)=>{
     try {
         let postId = req.params.id_post;
-        const user = await deleteComm(postId,req.body.id_comment)
+        let { id } = req.body
+        console.log(id);
+        const user = await deleteComm(postId, id)
+        console.log("the user: "+ user);
         if (!user) {
             res.status(401).json('No found posts')
             } else {

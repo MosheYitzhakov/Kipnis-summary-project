@@ -1,17 +1,20 @@
 import { Fragment, useEffect, useState } from "react";
 import { Comments } from "./comments";
 import  instance  from '../API';
+// import { NewComments } from "./newComment";
 let localStor;
 if(localStorage.uesr)
  localStor = JSON.parse(localStorage.uesr)
 
 export const Posts = () => {
     const [posts, setPosts] = useState([]);
+    // const [newComment, setNewComment] = useState(false);
     useEffect(() => {
         async function name() {
             try {
                 const { data } = await instance.get(`/posts/${localStor.id_user}`);
-                setPosts(data)
+                 const newData = data.map((v) => {return { ...v, size: 20 }})
+                setPosts(newData)
             } catch (error) {
                 return error.message
             }
@@ -53,7 +56,7 @@ export const Posts = () => {
                     body: {v.body}
                 </li>
                     <button type="text" className={`${v.id}`} onClick={comments}>comments</button>
-                    {v.comments ? <Comments comments={v.id} /> : ""}
+                    {v.comments ? <Comments post={v.id} /> : ""}
                 </Fragment>
             })}
         </ol>

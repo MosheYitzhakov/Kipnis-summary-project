@@ -1,32 +1,56 @@
 import { useEffect, useState } from "react"
-import  instance  from '../API';
-export const Comments = ({ comments }) => {
+import instance from '../API';
+import { NewComments } from "./newComment";
+
+export const Comments = ({ post }) => {
     const [isComments, setIsComments] = useState([])
+    const [newComment, setNewComment] = useState(false);
+    const [send, setSend] = useState(false);
+    const handleDelete =async ( commentId) => {
+        console.log("post id: "+ post + " comm id: " + commentId);
+        try {
+            // const { data } = await instance.delete(`/comments/${post}`);
+            // const { data } = await instance.get(`/comments/${post}`);
+            // console.log(isComments);
+            // console.log(data);
+            // setIsComments(data)
+       
+        setSend(true)
+        const timer = setTimeout(() => {
+            setSend(false)
+        }, 2000);
+        return () => clearTimeout(timer);
+         } catch (error) {
+            return error.message
+        }
+    }
     useEffect(() => {
         async function name() {
             try {
-                const { data } = await instance.get(`/comments/${comments}`);
+                const { data } = await instance.get(`/comments/${post}`);
                 setIsComments(data)
             } catch (error) {
                 return error.message
             }
         }
         name()
-
-
-        // fetch(`https://jsonplaceholder.typicode.com/comments?postId=${comments}`)
-        //     .then(res => res.json())
-        //     .then(date => setIsComments(date))
-    }, [comments])
+    }, [post])
     return <div>
-        { <ol>{isComments.map((c, i) => {
-        return <li key={i}>
-            name: {c.name} <br/>
-            email: {c.email} <br />
-            body: {c.body}
-        </li>
+
+        {<ol>{isComments.map((c, i) => {
+            return <li key={i}>
+                name: {c.name} <br />
+                email: {c.email} <br />
+                body: {c.body} <br />
+                <button type="button" onClick={() => handleDelete( c.id_comment)} style={{ margin: "5px" }}>delete</button>
 
 
-    })}</ol> }
+            </li>
+
+        })}</ol>}
+        <button onClick={() => setNewComment(!newComment)}>new comment</button>
+        <br />
+        {newComment && <NewComments post={post} setIsComments={setIsComments}/>}
+        {send && `The comment was deleted`}
     </div>
 }
