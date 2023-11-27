@@ -11,7 +11,7 @@ const getTodos = async (id_user, id_todo = null) => {
         FROM todos
         WHERE id_user = "${id_user}" 
         ${toSql}
-        ORDER BY id_todo
+        ORDER BY completed DESC
         `
         const [res] = await pool.query(sql);
         console.log(res);
@@ -27,11 +27,11 @@ const [ all ] = [...args]
     try {
         const sql = `
         UPDATE todos
-    SET completed = "${all.completed? 1:0}"
+    SET completed = "${all.completed ? 1:0}"
     WHERE id_user = "${id_user}"
     AND id_todo = "${all.id_todo}" `
         const [{ affectedRows }] = await pool.query(sql);
-        if (affectedRows) return await getTodos(id_user,all.id_todo)
+        if (affectedRows) return await getTodos(id_user)
         return 'not update'
     } catch (error) {
         return error.message

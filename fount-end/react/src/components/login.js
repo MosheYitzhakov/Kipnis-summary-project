@@ -14,7 +14,7 @@ export const Login = () => {
     console.log(`Login attempt with username: ${username} and password: ${password}`);
     const { data } = await instance.get(`/users/${username}/${password}`);
 if(typeof data === 'object'){
-  navigate("/home")
+  navigate(`/users/${username}`)
   localStorage.setItem("uesr", JSON.stringify(data))
   return console.log('ok');
 } else{
