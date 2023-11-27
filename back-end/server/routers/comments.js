@@ -1,5 +1,5 @@
 const express = require('express');
-const { getComments,newComment,deleteComm } =require('../../databases/dbComments')
+const { getComments, newComment, deleteComm } =require('../../databases/dbComments')
 const router = express.Router();
 module.exports = router;
 
@@ -35,13 +35,11 @@ router.get('/:id_post', async (req, res) => {
         res.send(error.message)
     } 
 })
-.delete('/:id_post',async (req,res)=>{
+.delete('/:id_post/:id_comment',async (req,res)=>{
     try {
         let postId = req.params.id_post;
-        let { id } = req.body
-        console.log(id);
-        const user = await deleteComm(postId, id)
-        console.log("the user: "+ user);
+        let id_comment = req.params.id_comment;
+        const user = await deleteComm(postId, id_comment)
         if (!user) {
             res.status(401).json('No found posts')
             } else {

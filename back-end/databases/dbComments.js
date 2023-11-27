@@ -36,7 +36,6 @@ if (affectedRows) return await getComments(id_post,insertId)
 
 }
 const deleteComm =async (id_post,id_comment) =>{
-    console.log(id_post+ " "+id_comment);
     try {
         const sql = `
     DELETE FROM  comments 
@@ -44,7 +43,6 @@ const deleteComm =async (id_post,id_comment) =>{
     AND id_comment= "${id_comment}"
     `;
     const [{ affectedRows}] = await pool.query(sql, [id_post,id_comment])
-    console.log("affectedRows "+ affectedRows);
     if (affectedRows) return await getComments(id_post)
         return 'The comment not deleted'
     } catch (error) {

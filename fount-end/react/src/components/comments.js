@@ -9,12 +9,8 @@ export const Comments = ({ post }) => {
     const handleDelete =async ( commentId) => {
         console.log("post id: "+ post + " comm id: " + commentId);
         try {
-            // const { data } = await instance.delete(`/comments/${post}`);
-            // const { data } = await instance.get(`/comments/${post}`);
-            // console.log(isComments);
-            // console.log(data);
-            // setIsComments(data)
-       
+            const { data } = await instance.delete(`/comments/${post}/${commentId}`);
+            setIsComments(data)
         setSend(true)
         const timer = setTimeout(() => {
             setSend(false)
