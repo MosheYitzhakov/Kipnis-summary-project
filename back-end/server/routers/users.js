@@ -1,11 +1,38 @@
 const express = require('express');
 
 const router = express.Router();
-const { getUser} = require('../../databases/dbUsers')
+const { getUser } = require('../../databases/dbUsers')
 module.exports = router;
 
-router.get('/:name/:password', async (req, res) => {
+async function auth(req, res, next) {
     try {
+        if (req.headers.auth) {
+            const [username, password ] = req.headers.auth.split(":")
+            const user = await getUser(username, password);
+            if (!user) {
+                res.status(404).send("user not found")
+                return;
+            }
+            req.user = user;
+            next()
+        } else {
+            res.status(401).send();
+
+        }
+    } catch (error) {
+        res.status(500).send();
+    }
+}
+
+router.get('/:name/:password'
+// ,auth
+, async (req, res) => {
+    try {
+        // if(req.params.name !== req.user.name){
+        //    res.status(401).send();
+        //    return;
+        // }
+       
         let name = req.params.name;
         let password = req.params.password;
         const user = await getUser(name, password)
@@ -21,4 +48,3 @@ router.get('/:name/:password', async (req, res) => {
     .get('*', (req, res) => {
         res.send('You did not enter a name or password')
     })
-    
