@@ -1,25 +1,25 @@
 // Login.js
 import React, { useState } from 'react';
 import './Login.css';
-import  instance  from '../API';
+import instance from '../API';
 import { useNavigate } from 'react-router-dom';
 export const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [incorrect, setIncorrect] = useState(false)
-  const handleLogin = async() => {
+  const handleLogin = async () => {
 
     // Implement your login logic here
     console.log(`Login attempt with username: ${username} and password: ${password}`);
     const { data } = await instance.get(`/users/${username}/${password}`);
-if(typeof data === 'object'){
-  navigate(`/users/${username}`)
-  localStorage.setItem("uesr", JSON.stringify(data))
-  return console.log('ok');
-} else{
-   return setIncorrect(true) 
-}
+    if (typeof data === 'object') {
+      localStorage.setItem("uesr", JSON.stringify(data))
+      navigate(`/users/${username}`)
+      return console.log('ok');
+    } else {
+      return setIncorrect(true)
+    }
   };
 
   return (
@@ -38,7 +38,7 @@ if(typeof data === 'object'){
           Login
         </button>
       </form>
-      {incorrect ? <p>The data is incorrect</p> : "" }
+      {incorrect ? <p>The data is incorrect</p> : ""}
     </div>
   );
 };

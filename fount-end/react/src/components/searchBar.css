@@ -1,0 +1,12 @@
+/* .container {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 0.1fr;
+    grid-auto-columns: 1fr;
+    gap: 0px 3px;
+    grid-auto-flow: row;
+    justify-items: stretch;
+    grid-template-areas:
+      ". . . . . . . . . .";
+  } */
+  
+  
