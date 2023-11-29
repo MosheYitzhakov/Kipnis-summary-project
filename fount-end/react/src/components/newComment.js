@@ -12,7 +12,7 @@ export const NewComments = ({ post, setIsComments }) => {
       if (body.length < 3) {
         setSend("The body is too small")
       } else {
-        const { data } = await instance.post(`/comments/${post}`, { name:localStor.name, email:email? email:localStor.email, body: body });
+        const { data } = await instance.post(`/comments/${post}`, { name:localStor.name, email:email? email:localStor.email, body: body },{headers: { auth: `${localStor.name}:${localStor.username}` }});
         if (data) {
           const [ newData ] = data
           setIsComments((v)=>[...v,newData])

@@ -937,7 +937,7 @@ button,
 }
 
 button {
-  display: block;
+  /* display: block; */
   /* width: 100%; */
   margin-bottom: var(--spacing);
 }

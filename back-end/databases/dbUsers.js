@@ -20,5 +20,24 @@ const getUser = async (name,password) => {
     return error.message
     }
     }
-
-    module.exports ={ getUser}
+    const getUsername = async (name,username) => {
+      try {
+      const sql = `
+      SELECT id_user,
+         username,
+         name,
+         email,
+         phone,
+         address
+      FROM users
+      WHERE name = "${name}"
+      AND username = "${username}"`;
+      
+      const [[res]] = await pool.query(sql);
+      console.log(res);
+      return res;
+      } catch (error) {
+      return error.message
+      }
+      }
+    module.exports ={ getUser, getUsername}

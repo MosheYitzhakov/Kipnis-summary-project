@@ -1,12 +1,17 @@
 const express = require('express');
-
+const auth =require('../auth')
 const router = express.Router();
 const { getTodos, updateCompleted } = require('../../databases/dbTodos');
 module.exports = router;
 
-router.get('/:user_id', async (req, res) => {
+router.get('/:id_user',auth, async (req, res) => {
+    // console.log("this is user "+req.user.id_user);
     try {
-        let userId = req.params.user_id;
+        if(Number(req.params.id_user) !== req.user.id_user){
+            res.status(401).send();
+            return;
+         }
+        let userId = req.params.id_user;
         // let password = req.params.password;
         const user = await getTodos(userId)
         if (!user.length) {
@@ -19,9 +24,9 @@ router.get('/:user_id', async (req, res) => {
         res.send(error.message)
     }
 })
-    .get('/:user_id/:id', async(req, res) => {
+    .get('/:id_user/:id', async(req, res) => {
         try {
-            let userId = req.params.user_id;
+            let userId = req.params.id_user;
             let id = req.params.id;
             const user = await getTodos(userId,id)
             if (!user.length) {
@@ -38,11 +43,11 @@ router.get('/:user_id', async (req, res) => {
         res.send('You did not enter a correct request')
     })
 
-    .put('/:user_id', async (req, res) => {
+    .put('/:id_user', async (req, res) => {
         console.log(123);
         try {
             
-            let userId = req.params.user_id;
+            let userId = req.params.id_user;
             const data = req.body
             console.log(data);
             const user = await updateCompleted(userId,data)

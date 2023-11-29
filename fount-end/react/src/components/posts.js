@@ -11,8 +11,10 @@ export const Posts = () => {
     // const [newComment, setNewComment] = useState(false);
     useEffect(() => {
         async function name() {
+          
             try {
-                const { data } = await instance.get(`/posts/${localStor.id_user}`);
+                const { data } = await instance.get(`/posts/${localStor.id_user}`
+                ,{headers: { auth: `${localStor.name}:${localStor.username}` }});
                  const newData = data.map((v) => {return { ...v, size: 20 }})
                 setPosts(newData)
             } catch (error) {

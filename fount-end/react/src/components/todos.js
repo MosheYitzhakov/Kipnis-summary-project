@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import  instance  from '../API';
 let localStor;
+
+ export const Todos = () => {
 if(localStorage.uesr){
  localStor = JSON.parse(localStorage.uesr)
-} 
- export const Todos = () => {
+}     
     const [todos, setTodos] = useState([]);
     useEffect(() => {
-                instance.get(`/todos/${localStor.id_user}`).then(({data})=>{
+                instance.get(`/todos/${localStor.id_user}`
+                ,{headers: { auth: `${localStor.name}:${localStor.username}` }}).then(({data})=>{
                    const newPrev = data.map((v) => {
                     if(v.completed === 1){
                         return { ...v, completed: true }
@@ -19,7 +21,7 @@ if(localStorage.uesr){
                 }).catch(e=> e.message)
     }, [])
     const handleClick =async ({ target },completed) => {
-        const { data } = await instance.put(`/todos/${localStor.id_user}`,{id_todo:`${Number(target.name)}`,completed:completed?0:1});
+        const { data } = await instance.put(`/todos/${localStor.id_user}`,{id_todo:`${Number(target.name)}`,completed:completed?0:1},{headers: { auth: `${localStor.name}:${localStor.username}` }});
         setTodos(data)
     }
     return (<>
