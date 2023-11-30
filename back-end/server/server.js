@@ -10,13 +10,13 @@ const commentsR = require('./routers/comments')
 app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(path.dirname(__dirname),'../',"fount-end",'react','build')));
-
-app.use(express.static(path.join(path.dirname(__dirname), "drive", "build")))
 // app.param()
+
 app.use('/api/users/',usersR)
 app.use('/api/posts/',postsR)
 app.use('/api/todos/',todosR)
 app.use('/api/comments/',commentsR)
+
 app.use(['/users/',"/posts/","/todos/","/comments/","/login/"] ,(req, res) => {
     const htmlPath = path.join(path.dirname(__dirname),'../',"fount-end",'react', "build", "index.html")
     res.sendFile(htmlPath);
